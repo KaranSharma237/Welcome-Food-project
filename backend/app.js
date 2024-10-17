@@ -21,6 +21,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Root endpoint
+app.get('/', (req, res) => {
+    res.send('Welcome to the restaurant API!');
+});
+
 // Define your routes
 app.use('/api/v1/reservation', reservationRouter);
 
