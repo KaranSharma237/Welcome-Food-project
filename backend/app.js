@@ -18,11 +18,19 @@ app.use(cors({
     credentials: true,
 }));
 
+// Custom CORS headers (if needed)
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL); // Allow specific origin
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS"); // Allow specific methods
+    res.header("Access-Control-Allow-Headers", "Content-Type"); // Allow specific headers
+    next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define the root POST endpoint
-app.post('/', (req, res) => { // Changed POST to post
+app.post('/', (req, res) => {
     res.status(200).json({ message: "Root POST endpoint is working!" });
 });
 
