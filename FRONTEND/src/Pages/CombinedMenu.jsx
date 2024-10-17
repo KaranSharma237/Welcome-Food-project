@@ -1,21 +1,27 @@
 import React from 'react';
-import { data } from '../restApi.json'; // Make sure this path is correct
-
+import { useNavigate } from 'react-router-dom';
+import { data } from '../restApi.json'; // Adjust the path as necessary
 
 const CombinedMenu = () => {
+  const navigate = useNavigate();
+
+  const handleOrder = () => {
+    navigate('/success'); // Redirect to the success page
+  };
+
   const menuItems = {
     Chinese: [
       { name: 'Kung Pao Chicken', description: 'Spicy stir-fried chicken with peanuts and vegetables.' },
-      { name: 'Sweet and Sour mutton', description: 'mutton in a tangy sauce with pineapple and bell peppers.' },
+      { name: 'Sweet and Sour Mutton', description: 'Mutton in a tangy sauce with pineapple and bell peppers.' },
       { name: 'Vegetable Fried Rice', description: 'Stir-fried rice with mixed vegetables and soy sauce.' },
     ],
     Italian: [
       { name: 'Spaghetti Carbonara', description: 'Pasta with creamy sauce, eggs, cheese, and pancetta.' },
       { name: 'Margherita Pizza', description: 'Classic pizza topped with tomatoes, mozzarella, and basil.' },
-      { name: 'Lasagna', description: 'Layers of pasta with meat, cheese, and tomato sauce. price-250rs.' },
+      { name: 'Lasagna', description: 'Layers of pasta with meat, cheese, and tomato sauce.' },
     ],
     Indian: [
-      { name: 'Shahi Paneer', description: 'Shahi Paneer in a creamy Gravy.' },
+      { name: 'Shahi Paneer', description: 'Paneer in a creamy gravy.' },
       { name: 'Paneer Tikka', description: 'Grilled paneer marinated in spices and yogurt.' },
       { name: 'Biryani', description: 'Fragrant rice dish cooked with spices and marinated meat.' },
     ],
@@ -46,13 +52,21 @@ const CombinedMenu = () => {
             <div className="card" key={element.id}>
               <img src={element.image} alt={element.title} className="dish-image" />
               <h3>{element.title}</h3>
-              <button className="category-button">{element.category}</button>
+              <button 
+                className="category-button" 
+                onClick={handleOrder} // Link to success page
+              >
+                {element.category}
+              </button>
             </div>
           ))}
         </div>
       </section>
+
+      <button onClick={handleOrder} className="order-button"></button> {/* Optional: Place Order button */}
     </div>
   );
 };
 
 export default CombinedMenu;
+

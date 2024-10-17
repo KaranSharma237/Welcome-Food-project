@@ -26,7 +26,8 @@ const Success = () => {
         <section className="success">
             <div className="container">
                 <img src="/sandwich.png" alt="Success" />
-               <h1>Redirecting to Home in {countdown} seconds...</h1> 
+               <h1> Thank You ...
+                    Redirecting to Home in {countdown} seconds...</h1> 
                 <Link to="/">
                     Back to Home <HiOutlineArrowNarrowRight />
                 </Link>
