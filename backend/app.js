@@ -11,16 +11,16 @@ dotenv.config({ path: "./config/config.env" });
 // Log the Frontend URL for debugging
 console.log('Frontend URL:', process.env.FRONTEND_URL);
 
-// CORS configuration
 app.use(cors({
-    origin: [process.env.FRONTEND_URL, 'https://welcome-food-project.vercel.app'],
-    methods: ["GET", "POST", "OPTIONS"], // Allow GET, POST, and OPTIONS methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
-    credentials: true, // If your requests include credentials (cookies, HTTP auth)
+    origin: '*', // Temporarily allow all origins for testing
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 }));
 
-// Enable pre-flight requests for all routes
+// Enable pre-flight requests
 app.options('*', cors());
+
 
 // Custom CORS headers (if needed)
 app.use((req, res, next) => {
