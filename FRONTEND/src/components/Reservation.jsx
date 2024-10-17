@@ -18,7 +18,7 @@ const Reservation = () => {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                "https://welcome-food-project.onrender.com",
+                "https://welcome-food-project-backend.onrender.com/api/v1/reservation", // Update the URL if necessary
                 { firstName, lastName, email, phone, date, time },
                 {
                     headers: {
@@ -53,58 +53,75 @@ const Reservation = () => {
                             <div>
                                 <input
                                     type="text"
+                                    id="firstName"
+                                    name="firstName"
                                     placeholder="First Name"
                                     value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
+                                    required
                                 />
                                 <input
                                     type="text"
+                                    id="lastName"
+                                    name="lastName"
                                     placeholder="Last Name"
                                     value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
+                                    required
                                 />
                             </div>
 
                             <div>
                                 <input
                                     type="date"
+                                    id="date"
+                                    name="date"
                                     placeholder="Date"
                                     value={date}
                                     onChange={(e) => setDate(e.target.value)}
+                                    required
                                 />
                                 <input
                                     type="time"
+                                    id="time"
+                                    name="time"
                                     placeholder="Time"
                                     value={time}
                                     onChange={(e) => setTime(e.target.value)}
+                                    required
                                 />
                             </div>
 
                             <div>
                                 <input
                                     type="email"
+                                    id="email"
+                                    name="email"
                                     placeholder="Email"
                                     className="email_tag"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    required
                                 />
 
                                 <input
-                                    type="number"
+                                    type="tel" // Use tel for phone input
+                                    id="phone"
+                                    name="phone"
                                     placeholder="Phone"
                                     className="phone_tag"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
+                                    required
                                 />
-
                             </div>
-                            
+
                             <button type="submit">
-                                    RESERVE NOW{" "}
-                                    <span>
-                                        <HiOutlineArrowNarrowRight />
-                                    </span>
-                                </button>
+                                RESERVE NOW{" "}
+                                <span>
+                                    <HiOutlineArrowNarrowRight />
+                                </span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -114,3 +131,4 @@ const Reservation = () => {
 };
 
 export default Reservation;
+
