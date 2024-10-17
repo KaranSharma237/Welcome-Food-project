@@ -14,7 +14,7 @@ console.log('Frontend URL:', process.env.FRONTEND_URL);
 // CORS configuration (only allowing POST requests)
 app.use(cors({
     origin: [process.env.FRONTEND_URL, 'https://welcome-food-project.vercel.app'],
-    methods: ["POST"], // Only allow POST method
+    methods: ["POST","GET"], // Only allow POST method
     credentials: true,
 }));
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Root endpoint for a simple response
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('API is live! Use the /api/v1/reservation/send endpoint to make reservations.');
 });
 
