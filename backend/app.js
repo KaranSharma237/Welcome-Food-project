@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define the root POST endpoint
-app.post('/send', (req, res) => {
+app.POST('/', (req, res) => {
     res.status(200).json({ message: "Root POST endpoint is working!" });
 });
 
