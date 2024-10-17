@@ -15,6 +15,7 @@ console.log('Frontend URL:', process.env.FRONTEND_URL);
 app.use(cors({
     origin: [process.env.FRONTEND_URL, 'https://welcome-food-project.vercel.app'],
     methods: ["POST"], // Allow only POST method
+     allowedHeaders: ["Content-Type", "Authorization"], // Include any headers you may use
     credentials: true,
 }));
 
