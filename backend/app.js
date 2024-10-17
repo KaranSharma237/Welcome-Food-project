@@ -14,10 +14,13 @@ console.log('Frontend URL:', process.env.FRONTEND_URL);
 // CORS configuration
 app.use(cors({
     origin: [process.env.FRONTEND_URL, 'https://welcome-food-project.vercel.app'],
-    methods: ["POST"], // Allow only POST method
-     
-    credentials: true,
+    methods: ["GET", "POST", "OPTIONS"], // Allow GET, POST, and OPTIONS methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+    credentials: true, // If your requests include credentials (cookies, HTTP auth)
 }));
+
+// Enable pre-flight requests for all routes
+app.options('*', cors());
 
 // Custom CORS headers (if needed)
 app.use((req, res, next) => {
