@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define the root POST endpoint
-app.post('/api/v1/reservation', (req, res) => {
+app.post('/send', (req, res) => {
     res.status(200).json({ message: "Root POST endpoint is working!" });
 });
 
