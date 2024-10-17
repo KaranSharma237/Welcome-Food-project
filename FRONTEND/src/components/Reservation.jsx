@@ -18,7 +18,7 @@ const Reservation = () => {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                "https://welcome-food-project-backend.onrender.com/api/v1/reservation", // Update the URL if necessary
+                "https://welcome-food-project.onrender.com/api/v1/reservation", // Update the URL if necessary
                 { firstName, lastName, email, phone, date, time },
                 {
                     headers: {
