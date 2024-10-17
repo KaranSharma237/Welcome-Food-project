@@ -11,22 +11,22 @@ dotenv.config({ path: "./config/config.env" });
 // Log the Frontend URL for debugging
 console.log('Frontend URL:', process.env.FRONTEND_URL);
 
-// CORS configuration (only allowing POST requests)
+// CORS configuration
 app.use(cors({
     origin: [process.env.FRONTEND_URL, 'https://welcome-food-project.vercel.app'],
-    methods: ["POST","GET"], // Only allow POST method
+    methods: ["POST"], // Allow only POST method
     credentials: true,
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Root endpoint for a simple response
-app.get('/', (req, res) => {
-    res.send('API is live! Use the /api/v1/reservation/send endpoint to make reservations.');
+// Define the root POST endpoint
+app.post('/', (req, res) => {
+    res.status(200).json({ message: "Root POST endpoint is working!" });
 });
 
-// Define your routes
+// Define your reservation routes
 app.use('/api/v1/reservation', reservationRouter);
 
 // Connect to the database
@@ -42,3 +42,4 @@ app.use((req, res, next) => {
 });
 
 export default app;
+
