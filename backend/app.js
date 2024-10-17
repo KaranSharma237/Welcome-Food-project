@@ -22,8 +22,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define the root POST endpoint
-app.POST('/', (req, res) => {
+app.post('/', (req, res) => { // Changed POST to post
     res.status(200).json({ message: "Root POST endpoint is working!" });
+});
+
+// Optional: Define a root GET endpoint for testing
+app.get('/', (req, res) => {
+    res.status(200).send("Welcome to the API!");
 });
 
 // Define your reservation routes
