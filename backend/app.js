@@ -32,18 +32,11 @@ const corsOptions = {
     credentials: true,
 };
 
-// Use CORS middleware
+// Use CORS middleware before routes
 app.use(cors(corsOptions));
 
 // Enable pre-flight across-the-board
 app.options('*', cors(corsOptions));
-
-// Middleware to log CORS headers
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -58,8 +51,8 @@ app.get('/', (req, res) => {
     res.status(200).send("Welcome to the API!");
 });
 
-// Define your reservation routes
-app.use('/api/v1/reservation', reservationRouter);
+// Apply CORS specifically to the reservation routes
+app.use('/api/v1/reservation', cors(corsOptions), reservationRouter);
 
 // Example of triggering an event (you can modify this as needed)
 app.post('/api/v1/reservation/notify', (req, res) => {
@@ -86,3 +79,4 @@ app.use((req, res, next) => {
 });
 
 export default app;
+
