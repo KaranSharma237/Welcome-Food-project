@@ -20,7 +20,6 @@ app.use(cors({
     methods: ["POST", "GET", "OPTIONS"], // Allow POST, GET, and OPTIONS methods
     allowedHeaders: ["Content-Type", "Authorization"], // Include any headers you may use
     credentials: true,
-       body: JSON.stringify(data),
 }));
 
 // Enable pre-flight across-the-board
@@ -55,5 +54,4 @@ app.use((req, res, next) => {
 });
 
 export default app;
-
 
