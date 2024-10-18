@@ -28,6 +28,12 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Optional: Log requests for debugging
+app.use((req, res, next) => {
+    console.log(`${req.method} request for '${req.url}'`);
+    next();
+});
+
 // Define the root POST endpoint
 app.post('/', (req, res) => {
     res.status(200).json({ message: "Root POST endpoint is working!" });
@@ -39,7 +45,10 @@ app.get('/', (req, res) => {
 });
 
 // Define your reservation routes
-app.use('/api/v1/reservation', reservationRouter);
+app.use('/api/v1/reservation', (req, res, next) => {
+    console.log("Request received at /api/v1/reservation");
+    next();
+}, reservationRouter);
 
 // Connect to the database
 dbConnection();
@@ -47,10 +56,5 @@ dbConnection();
 // Error handling middleware
 app.use(errorMiddleware);
 
-// Optional: Log requests for debugging
-app.use((req, res, next) => {
-    console.log(`${req.method} request for '${req.url}'`);
-    next();
-});
-
 export default app;
+
