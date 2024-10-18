@@ -12,18 +12,18 @@ dotenv.config({ path: "./config/config.env" });
 console.log('Frontend URL:', process.env.FRONTEND_URL);
 
 // CORS configuration
-const corsOptions = {
-    origin: '*', // Temporarily allow all origins for testing
-    methods: ["POST", "GET", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+app.use(cors({
+    origin: [
+        process.env.FRONTEND_URL,
+        'https://welcome-food-project.vercel.app'
+    ],
+    methods: ["POST", "GET", "OPTIONS"], // Allow POST, GET, and OPTIONS methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Include any headers you may use
     credentials: true,
-};
-
-// Use CORS middleware before routes
-app.use(cors(corsOptions));
+}));
 
 // Enable pre-flight across-the-board
-app.options('*', cors(corsOptions));
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,8 +38,8 @@ app.get('/', (req, res) => {
     res.status(200).send("Welcome to the API!");
 });
 
-// Apply CORS specifically to the reservation routes
-app.use('/api/v1/reservation', cors(corsOptions), reservationRouter);
+// Define your reservation routes
+app.use('/api/v1/reservation', reservationRouter);
 
 // Connect to the database
 dbConnection();
@@ -49,10 +49,8 @@ app.use(errorMiddleware);
 
 // Optional: Log requests for debugging
 app.use((req, res, next) => {
-    console.log(`Received ${req.method} request for ${req.url} from ${req.headers.origin}`);
+    console.log(`${req.method} request for '${req.url}'`);
     next();
 });
 
 export default app;
-
-
