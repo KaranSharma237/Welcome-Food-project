@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { dbConnection } from "./database/dbconnection.js";
 import { errorMiddleware } from "./error/error.js";
 import reservationRouter from './routes/reservationRoute.js';
+import Pusher from 'pusher';
 
 const app = express();
 dotenv.config({ path: "./config/config.env" });
@@ -11,19 +12,38 @@ dotenv.config({ path: "./config/config.env" });
 // Log the Frontend URL for debugging
 console.log('Frontend URL:', process.env.FRONTEND_URL);
 
+// Initialize Pusher
+const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_APP_KEY,
+    secret: process.env.PUSHER_APP_SECRET,
+    cluster: process.env.PUSHER_APP_CLUSTER,
+    useTLS: true,
+});
+
 // CORS configuration
-app.use(cors({
+const corsOptions = {
     origin: [
         process.env.FRONTEND_URL,
         'https://welcome-food-project.vercel.app'
     ],
-    methods: ["POST", "GET", "OPTIONS"], // Allow POST, GET, and OPTIONS methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Include any headers you may use
+    methods: ["POST", "GET", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-}));
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
 
 // Enable pre-flight across-the-board
-app.options('*', cors());
+app.options('*', cors(corsOptions));
+
+// Middleware to log CORS headers
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +60,18 @@ app.get('/', (req, res) => {
 
 // Define your reservation routes
 app.use('/api/v1/reservation', reservationRouter);
+
+// Example of triggering an event (you can modify this as needed)
+app.post('/api/v1/reservation/notify', (req, res) => {
+    const { message } = req.body;
+
+    // Trigger an event
+    pusher.trigger('my-channel', 'my-event', {
+        message: message,
+    });
+
+    res.status(200).send("Event triggered!");
+});
 
 // Connect to the database
 dbConnection();
