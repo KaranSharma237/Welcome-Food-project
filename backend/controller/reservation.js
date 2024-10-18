@@ -9,14 +9,19 @@ export const sendReservation = async (req, res, next) => {
         return next(new ErrorHandler("Please fill out the entire reservation form!", 400));
     }
 
+    // Check if the date is valid
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) {
+        return next(new ErrorHandler("Invalid date format!", 400));
+    }
+
     try {
-        // Convert date string to Date object if necessary
         const reservationData = {
             firstName,
             lastName,
             email,
             phone,
-            date: new Date(date), // Ensure the date is in Date format
+            date: parsedDate,
             time,
         };
 
@@ -27,6 +32,7 @@ export const sendReservation = async (req, res, next) => {
             message: "Reservation sent successfully!",
         });
     } catch (error) {
+        console.error(error); // Log the error for debugging
         if (error.name === "ValidationError") {
             const validatorErrors = Object.values(error.errors).map(err => err.message);
             return next(new ErrorHandler(validatorErrors.join(', '), 400));
