@@ -4,6 +4,8 @@ import { sendReservation } from "../controller/reservation.js";
 const router = express.Router();
 
 // POST endpoint for creating a reservation directly at /api/v1/reservation
+router.post("/", sendReservation);  // This handles POST requests at /api/v1/reservation
+
 router.post("/", (req, res) => {
     console.log('Reservation request received:', req.body);
     sendReservation(req, res);
